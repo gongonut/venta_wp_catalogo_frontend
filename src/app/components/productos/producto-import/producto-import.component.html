@@ -1,0 +1,70 @@
+<div class="container mx-auto p-8">
+  <h2 class="text-2xl font-bold mb-6">Importar Productos</h2>
+
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <form (ngSubmit)="onUpload()" #importForm="ngForm">
+      <!-- Selector de Empresa -->
+      <div class="mb-4">
+        <label for="empresa" class="block text-gray-700 text-sm font-bold mb-2">Empresa:</label>
+        <select
+          id="empresa"
+          name="empresa"
+          [(ngModel)]="selectedEmpresa"
+          required
+          [disabled]="isEmpresaFromRoute"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="" disabled>Selecciona una empresa</option>
+          <!-- Las opciones se llenarán dinámicamente -->
+          <option *ngFor="let empresa of empresas" [value]="empresa._id">{{ empresa.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Selector de Tipo de Archivo -->
+      <div class="mb-4">
+        <label for="fileType" class="block text-gray-700 text-sm font-bold mb-2">Tipo de Plantilla:</label>
+        <select
+          id="fileType"
+          name="fileType"
+          [(ngModel)]="fileType"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="excel">Excel (.xlsx)</option>
+          <option value="json">JSON (.json)</option>
+        </select>
+      </div>
+
+      <!-- Selector de Archivo -->
+      <div class="mb-6">
+        <label for="file" class="block text-gray-700 text-sm font-bold mb-2">Archivo:</label>
+        <input
+          type="file"
+          id="file"
+          (change)="onFileSelected($event)"
+          required
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+          [accept]="fileType === 'excel' ? '.xlsx' : '.json'"
+        >
+        <p class="mt-1 text-sm text-gray-500">
+          Asegúrate de que las columnas/claves coincidan con la plantilla: sku, nombreCorto, nombreLargo, existencia, costo, precioVenta.
+        </p>
+      </div>
+
+      <!-- Botón de Envío -->
+      <div class="flex items-center justify-between">
+        <button
+          type="submit"
+          [disabled]="!importForm.form.valid || !selectedFile"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+        >
+          Subir y Procesar
+        </button>
+      </div>
+    </form>
+
+    <!-- Feedback al Usuario -->
+    <div *ngIf="feedbackMessage" class="mt-4 p-4 rounded" [ngClass]="isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'">
+      {{ feedbackMessage }}
+    </div>
+  </div>
+</div>

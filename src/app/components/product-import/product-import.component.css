@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  padding: 1rem 2rem 2rem 2rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.import-form {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-status {
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.upload-status.success {
+  background-color: #e9f7ef;
+  color: #1d7a46;
+}
+
+.upload-status.error {
+  background-color: #fdecea;
+  color: #a92525;
+}

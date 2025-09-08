@@ -1,0 +1,21 @@
+<div class="import-container">
+  <h2>Importar Productos desde Excel</h2>
+  <p>
+    Sube un archivo <code>.xlsx</code> con los productos a importar para la empresa seleccionada.
+    La primera fila del archivo debe contener los nombres de las columnas:
+    <strong>sku, nombreCorto, precioVenta, nombreLargo, categoria, existencia, costo, foto1, foto2, ...</strong>
+  </p>
+
+  <form (ngSubmit)="onSubmit()" class="import-form">
+    <div class="form-group">
+      <label for="file">Archivo Excel</label>
+      <input id="file" type="file" (change)="onFileChange($event)" accept=".xlsx" required />
+    </div>
+
+    <button type="submit" [disabled]="!selectedFile">Importar Productos</button>
+  </form>
+
+  <div *ngIf="uploadMessage" class="upload-status" [ngClass]="{'error': isError, 'success': !isError}">
+    {{ uploadMessage }}
+  </div>
+</div>

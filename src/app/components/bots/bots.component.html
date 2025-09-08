@@ -1,0 +1,44 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">Manage Bots</h1>
+
+  <div class="mb-6">
+    <mat-form-field appearance="outline" class="w-full md:w-1/3">
+      <mat-label>New Bot Name</mat-label>
+      <input matInput [(ngModel)]="newBotName" placeholder="Enter bot name">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="createBot()" class="ml-2">Add Bot</button>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <mat-card *ngFor="let bot of bots" class="flex flex-col">
+      <mat-card-header>
+        <mat-card-title>{{ bot.name }}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip-listbox>
+            <mat-chip [ngClass]="{
+              'bg-green-500 text-white': bot.status === 'active',
+              'bg-yellow-500 text-white': bot.status === 'pairing',
+              'bg-red-500 text-white': bot.status === 'inactive'
+            }">{{ bot.status }}</mat-chip>
+          </mat-chip-listbox>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="flex-grow flex items-center justify-center">
+        <div *ngIf="bot.status === 'pairing' && bot.qr" class="p-4 bg-white rounded-lg">
+          <qrcode [qrdata]="bot.qr" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="mt-auto">
+        <button mat-button color="primary" (click)="activateBot(bot._id)" [disabled]="bot.status === 'active'">Activate</button>
+        <button mat-button color="warn" (click)="inactivateBot(bot._id)" [disabled]="bot.status === 'inactive'">Inactivate</button>
+        <span class="flex-grow"></span>
+        <button mat-icon-button (click)="refreshBotStatus(bot)" aria-label="Refresh bot status">
+          <mat-icon>sync</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteBot(bot._id)" aria-label="Delete bot">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

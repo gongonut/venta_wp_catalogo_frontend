@@ -1,0 +1,37 @@
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Empresas</h1>
+    <button (click)="createEmpresa()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Crear Empresa
+    </button>
+  </div>
+
+  <div class="shadow overflow-hidden rounded border-b border-gray-200">
+    <table class="min-w-full bg-white">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Nombre</th>
+          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Código</th>
+          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">WhatsApp</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <tr *ngFor="let empresa of empresas$ | async">
+          <td class="text-left py-3 px-4">{{ empresa.nombre }}</td>
+          <td class="text-left py-3 px-4">{{ empresa.code }}</td>
+          <td class="text-left py-3 px-4">{{ empresa.whatsApp }}</td>
+          <td class="text-left py-3 px-4">
+            <button (click)="editEmpresa(empresa._id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">Editar</button>
+            <button (click)="deleteEmpresa(empresa._id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Eliminar</button>
+            <button (click)="openProductImporter(empresa._id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Importar Prod.</button>
+            <button (click)="openImageUploader(empresa._id)" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Subir Imágenes</button>
+          </td>
+        </tr>
+        <tr *ngIf="!(empresas$ | async)?.length">
+          <td colspan="4" class="text-center py-3 px-4">No hay empresas para mostrar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">{{ isEditMode ? 'Editar Empresa' : 'Crear Empresa' }}</h1>
+
+  <form [formGroup]="empresaForm" (ngSubmit)="saveEmpresa()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">
+        Nombre
+      </label>
+      <input formControlName="nombre" id="nombre" type="text" placeholder="Nombre de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <div *ngIf="empresaForm.get('nombre')?.invalid && empresaForm.get('nombre')?.touched" class="text-red-500 text-xs italic">
+        El nombre es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+        Código
+      </label>
+      <input formControlName="code" id="code" type="text" placeholder="Código único de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <div *ngIf="empresaForm.get('code')?.invalid && empresaForm.get('code')?.touched" class="text-red-500 text-xs italic">
+        El código es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="whatsApp">
+        WhatsApp
+      </label>
+      <input formControlName="whatsApp" id="whatsApp" type="text" placeholder="Número de WhatsApp" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <div *ngIf="empresaForm.get('whatsApp')?.invalid && empresaForm.get('whatsApp')?.touched" class="text-red-500 text-xs italic">
+        El número de WhatsApp es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="telefono">
+        Teléfono
+      </label>
+      <input formControlName="telefono" id="telefono" type="text" placeholder="Número de teléfono" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+        Email
+      </label>
+      <input formControlName="email" id="email" type="email" placeholder="Correo electrónico" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <div *ngIf="empresaForm.get('email')?.invalid && empresaForm.get('email')?.touched" class="text-red-500 text-xs italic">
+        Ingrese un email válido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="direccion">
+        Dirección
+      </label>
+      <input formControlName="direccion" id="direccion" type="text" placeholder="Dirección de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="saludoBienvenida">
+        Saludo de Bienvenida
+      </label>
+      <textarea formControlName="saludoBienvenida" id="saludoBienvenida" placeholder="Mensaje de bienvenida del bot" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="saludoDespedida">
+        Saludo de Despedida
+      </label>
+      <textarea formControlName="saludoDespedida" id="saludoDespedida" placeholder="Mensaje de despedida del bot" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <button type="submit" [disabled]="empresaForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancel()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

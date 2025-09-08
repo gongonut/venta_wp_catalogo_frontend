@@ -1,0 +1,25 @@
+<div class="uploader-container">
+  <h2>Subida de Imágenes por Lote</h2>
+  <p>
+    Sube múltiples imágenes al servidor para obtener sus URLs. Luego, copia las URLs generadas
+    y pégalas en tu plantilla de Excel en las columnas <strong>foto1, foto2, etc.</strong>
+  </p>
+
+  <div class="upload-form">
+    <div class="form-group">
+      <label for="image-files">Seleccionar Imágenes</label>
+      <input id="image-files" type="file" multiple (change)="onFileChange($event)" accept="image/png, image/jpeg, image/webp" />
+    </div>
+    <button (click)="onUpload()" [disabled]="selectedFiles.length === 0">Subir Imágenes</button>
+  </div>
+
+  <div *ngIf="uploadMessage" class="upload-status" [ngClass]="{'error': isError, 'success': !isError}">
+    {{ uploadMessage }}
+  </div>
+
+  <div *ngIf="uploadedUrls.length > 0" class="urls-container">
+    <h3>URLs Generadas:</h3>
+    <textarea readonly rows="10">{{ uploadedUrls.join('\n') }}</textarea>
+    <p><small>Copia estas URLs en tu archivo de Excel.</small></p>
+  </div>
+</div>
