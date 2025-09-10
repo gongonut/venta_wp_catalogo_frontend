@@ -11,3 +11,8 @@ import { RouterOutlet, RouterModule } from '@angular/router';
 export class AppComponent {
   title = 'frontend';
 }
+
+/*
+cd "c:\Users\Juan Carlos\Documents\proyectos\venta-wp-catalogo\frontend"
+ng serve --port 4202
+*/

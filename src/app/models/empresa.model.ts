@@ -8,5 +8,6 @@ export interface Empresa {
   direccion?: string;
   saludoBienvenida?: string;
   saludoDespedida?: string;
+  categorias?: string[];
   // No incluimos geoUbicacion en el modelo simple para el listado, a menos que sea necesario
 }

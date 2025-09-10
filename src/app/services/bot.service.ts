@@ -10,6 +10,7 @@ export interface Bot {
   status: 'active' | 'inactive' | 'pairing' | 'error';
   empresa?: any; // or a more specific type
   qr?: string;
+  phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +24,7 @@ export class BotService {
   constructor(private http: HttpClient) { }
 
   getBots(): Observable<Bot[]> {
+    debugger;
     return this.http.get<Bot[]>(this.apiUrl);
   }
 
@@ -43,6 +45,7 @@ export class BotService {
   }
 
   getBot(id: string): Observable<Bot> {
+    debugger;
     return this.http.get<Bot>(`${this.apiUrl}/${id}`);
   }
 }

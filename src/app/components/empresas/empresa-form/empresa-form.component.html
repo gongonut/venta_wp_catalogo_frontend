@@ -70,6 +70,24 @@
       <textarea formControlName="saludoDespedida" id="saludoDespedida" placeholder="Mensaje de despedida del bot" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
     </div>
 
+    <div class="mb-6">
+      <mat-form-field class="w-full">
+        <mat-label>Categorías de Productos</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter categorias">
+          <mat-chip-row *ngFor="let categoria of categorias.controls; let i = index" (removed)="remove(i)">
+            {{categoria.value}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+        <input placeholder="Nueva categoría..."
+               [matChipInputFor]="chipGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               (matChipInputTokenEnd)="add($event)"/>
+      </mat-form-field>
+    </div>
+
     <div class="flex items-center justify-between">
       <button type="submit" [disabled]="empresaForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         {{ isEditMode ? 'Actualizar' : 'Guardar' }}

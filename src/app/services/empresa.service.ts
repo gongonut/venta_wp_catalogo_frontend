@@ -1,22 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-// It's better to move this to its own file, e.g., app/models/empresa.model.ts
-export interface Empresa {
-  _id: string;
-  code: string;
-  nombre: string;
-  telefono?: string;
-  whatsApp: string;
-  email?: string;
-  direccion?: string;
-  geoUbicacion?: any;
-  saludoBienvenida?: string;
-  saludoDespedida?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { Empresa } from '../models/empresa.model';
 
 @Injectable({
   providedIn: 'root'

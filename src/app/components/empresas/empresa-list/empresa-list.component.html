@@ -26,6 +26,7 @@
             <button (click)="deleteEmpresa(empresa._id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Eliminar</button>
             <button (click)="openProductImporter(empresa._id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Importar Prod.</button>
             <button (click)="openImageUploader(empresa._id)" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Subir Imágenes</button>
+            <button (click)="openQrDialog(empresa)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Ver QR</button>
           </td>
         </tr>
         <tr *ngIf="!(empresas$ | async)?.length">

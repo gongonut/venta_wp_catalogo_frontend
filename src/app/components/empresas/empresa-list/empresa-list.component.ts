@@ -1,16 +1,21 @@
+// This component lists all the companies
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Empresa, EmpresaService } from '../../../services/empresa.service';
+import { EmpresaService } from '../../../services/empresa.service';
+import { Empresa } from '../../../models/empresa.model';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageBatchUploaderComponent } from '../../image-batch-uploader/image-batch-uploader.component';
 import { ProductImportComponent } from '../../product-import/product-import.component';
+import { QrDialogComponent } from '../qr-dialog/qr-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-empresa-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatDialogModule],
+  imports: [CommonModule, RouterModule, MatDialogModule, MatIconModule, MatButtonModule],
   templateUrl: './empresa-list.component.html',
   styleUrl: './empresa-list.component.css'
 })
@@ -50,6 +55,18 @@ export class EmpresaListComponent implements OnInit {
     this.dialog.open(ProductImportComponent, {
       width: '800px',
       data: { empresaId: empresaId }
+    });
+  }
+
+  openQrDialog(empresa: Empresa): void {
+    this.dialog.open(QrDialogComponent, {
+      width: '400px',
+      data: { 
+        empresa: {
+          code: empresa.code,
+          nombre: empresa.nombre
+        }
+      }
     });
   }
 
