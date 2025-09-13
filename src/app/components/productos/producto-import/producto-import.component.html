@@ -66,5 +66,12 @@
     <div *ngIf="feedbackMessage" class="mt-4 p-4 rounded" [ngClass]="isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'">
       {{ feedbackMessage }}
     </div>
+
+    <!-- Bloque para mostrar errores de validación detallados -->
+    <div *ngIf="isError && validationErrors.length > 0" class="mt-4">
+      <h4 class="font-bold text-red-800">Detalles de los Errores:</h4>
+      <pre class="bg-red-50 text-red-700 p-4 rounded-lg overflow-x-auto text-sm"><code>{{ validationErrors | json }}</code></pre>
+    </div>
+
   </div>
 </div>

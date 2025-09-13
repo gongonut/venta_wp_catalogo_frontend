@@ -21,6 +21,7 @@ export class ProductoImportComponent implements OnInit {
   selectedFile: File | null = null;
   feedbackMessage: string = '';
   isError: boolean = false;
+  validationErrors: any[] = []; // Propiedad para guardar los errores detallados
 
   private empresasService = inject(EmpresasService);
   private productosService = inject(ProductosService);
@@ -58,6 +59,7 @@ export class ProductoImportComponent implements OnInit {
       this.selectedFile = input.files[0];
       this.feedbackMessage = '';
       this.isError = false;
+      this.validationErrors = []; // Limpiar errores anteriores
     }
   }
 
@@ -70,6 +72,7 @@ export class ProductoImportComponent implements OnInit {
 
     this.feedbackMessage = 'Subiendo y procesando archivo...';
     this.isError = false;
+    this.validationErrors = []; // Limpiar errores al iniciar la subida
 
     this.productosService.importProducts(this.selectedFile, this.selectedEmpresa, this.fileType).subscribe({
       next: (response) => {
@@ -79,6 +82,12 @@ export class ProductoImportComponent implements OnInit {
       error: (err) => {
         this.feedbackMessage = `Error en la importación: ${err.error.message || 'Ocurrió un error desconocido.'}`;
         this.isError = true;
+        // Guardar los errores detallados si existen en la respuesta
+        if (err.error && Array.isArray(err.error.errors)) {
+          this.validationErrors = err.error.errors;
+        } else {
+          this.validationErrors = [];
+        }
         console.error(err);
       }
     });

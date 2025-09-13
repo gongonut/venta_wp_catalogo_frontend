@@ -49,6 +49,7 @@ export class ProductImportComponent {
         this.isError = false;
       },
       error: (error) => {
+        debugger;
         this.uploadMessage = `Error en la subida: ${error.error?.message || 'Error desconocido.'}`;
         this.isError = true;
       }

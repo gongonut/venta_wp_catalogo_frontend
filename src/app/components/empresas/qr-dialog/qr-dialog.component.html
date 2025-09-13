@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Código QR para {{ data.empresa.nombre }}</h1>
+<div mat-dialog-content class="dialog-content">
+  <p>Selecciona un bot para generar el código QR y el enlace de WhatsApp.</p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Seleccionar Bot</mat-label>
+    <mat-select [(ngModel)]="selectedBotNumber" (selectionChange)="onBotSelectionChange()">
+      <mat-option *ngFor="let bot of activeBots$ | async" [value]="bot.phoneNumber">
+        {{ bot.name }} ({{ bot.phoneNumber }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <div class="qr-code-container" *ngIf="qrData">
+    <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+  </div>
+
+  <p *ngIf="qrData">O copia el siguiente enlace:</p>
+  <div class="link-container" *ngIf="qrData">
+    <input matInput [value]="qrData" readonly>
+    <button mat-icon-button (click)="copyToClipboard()" aria-label="Copiar enlace">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cerrar</button>
+</div>
