@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductosService } from '../../services/productos.service';
 
@@ -48,11 +48,25 @@ export class ProductImportComponent {
         this.uploadMessage = `¡Éxito! Productos creados: ${response.created}, actualizados: ${response.updated}.`;
         this.isError = false;
       },
-      error: (error) => {
-        debugger;
-        this.uploadMessage = `Error en la subida: ${error.error?.message || 'Error desconocido.'}`;
+      error: (err: HttpErrorResponse) => {
+        const serverError = err.error;
+        const defaultMessage = 'Ocurrió un error desconocido al procesar el archivo';
+        
+        const detail = this.formatErrorDetails(serverError);
+
+        this.uploadMessage = serverError?.message ? `${serverError.message}. ${detail}` : `${defaultMessage}. ${detail}`;
         this.isError = true;
       }
     });
+  }
+
+  private formatErrorDetails(serverError: any): string {
+    if (serverError && Array.isArray(serverError.errors) && serverError.errors.length > 0) {
+      const formattedErrors = serverError.errors.map((e: any) => 
+        `Fila ${e.row}: ${Array.isArray(e.errors) ? e.errors.join(', ') : 'Error desconocido'}`
+      ).join('; ');
+      return `Detalles: ${formattedErrors}`;
+    }
+    return 'No se proporcionaron detalles adicionales.';
   }
 }
