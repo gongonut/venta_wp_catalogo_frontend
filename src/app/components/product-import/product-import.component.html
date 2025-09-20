@@ -3,7 +3,11 @@
   <p>
     Sube un archivo <code>.xlsx</code> con los productos a importar para la empresa seleccionada.
     La primera fila del archivo debe contener los nombres de las columnas:
-    <strong>sku, nombreCorto, precioVenta, nombreLargo, categoria, existencia, costo, foto1, foto2, ...</strong>
+    <strong>sku, nombreCorto, precioVenta, nombreLargo, categoria, existencia, costo, presentacion, foto1, foto2, ...</strong>
+  </p>
+  <p>
+    La columna <strong>presentacion</strong> debe contener un texto en formato JSON. Por ejemplo:
+    <code>&#123;"125g": &#123;"precioventa": 100, "existencia": 100, "250g": &#123;"precioventa": 180, "existencia": 50&#125;&#125;</code>
   </p>
 
   <form (ngSubmit)="onSubmit()" class="import-form">

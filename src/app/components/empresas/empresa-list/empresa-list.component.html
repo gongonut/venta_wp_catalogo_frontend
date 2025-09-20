@@ -23,6 +23,7 @@
           <td class="text-left py-3 px-4">{{ empresa.whatsApp }}</td>
           <td class="text-left py-3 px-4">
             <button (click)="editEmpresa(empresa._id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">Editar</button>
+            <button (click)="verProductos(empresa._id)" class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Ver Productos</button>
             <button (click)="deleteEmpresa(empresa._id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Eliminar</button>
             <button (click)="openProductImporter(empresa._id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Importar Prod.</button>
             <button (click)="openImageUploader(empresa._id)" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">Subir Imágenes</button>

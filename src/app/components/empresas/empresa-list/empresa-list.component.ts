@@ -44,6 +44,10 @@ export class EmpresaListComponent implements OnInit {
     this.router.navigate(['/empresas/new']);
   }
 
+  verProductos(id: string): void {
+    this.router.navigate(['/empresas', id, 'productos']);
+  }
+
   openImageUploader(empresaId: string): void {
     this.dialog.open(ImageBatchUploaderComponent, {
       width: '800px',

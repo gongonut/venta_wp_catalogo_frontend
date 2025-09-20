@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ProductosService } from '../../services/productos.service';
+import { EmpresaService } from '../../services/empresa.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -19,7 +19,7 @@ export class ImageBatchUploaderComponent {
   empresaId: string;
 
   constructor(
-    private productosService: ProductosService,
+    private empresaService: EmpresaService,
     @Inject(MAT_DIALOG_DATA) public data: { empresaId: string }
   ) {
     this.empresaId = data.empresaId;
@@ -40,7 +40,7 @@ export class ImageBatchUploaderComponent {
     this.isError = false;
     this.uploadedUrls = [];
 
-    this.productosService.uploadImages(this.selectedFiles).subscribe({
+    this.empresaService.uploadProductImages(this.selectedFiles).subscribe({
       next: (response) => {
         this.uploadMessage = `¡Éxito! Se subieron ${response.urls.length} imágenes.`;
         this.uploadedUrls = response.urls;

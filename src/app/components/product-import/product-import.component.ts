@@ -3,7 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProductosService } from '../../services/productos.service';
+import { EmpresaService } from '../../services/empresa.service'; // Corrected import
+
+interface ImportResponse {
+  message: string;
+  created: number;
+  updated: number;
+  errors: any[];
+}
 
 @Component({
   selector: 'app-product-import',
@@ -20,7 +27,7 @@ export class ProductImportComponent {
   isError: boolean = false;
 
   constructor(
-    private productosService: ProductosService,
+    private empresaService: EmpresaService, // Corrected injection
     @Inject(MAT_DIALOG_DATA) public data: { empresaId: string }
   ) {
     this.selectedEmpresaId = data.empresaId;
@@ -35,7 +42,7 @@ export class ProductImportComponent {
 
   onSubmit(): void {
     if (!this.selectedEmpresaId || !this.selectedFile) {
-      this.uploadMessage = 'Por favor, selecciona un archivo.'; // Empresa ya no se selecciona aquí
+      this.uploadMessage = 'Por favor, selecciona un archivo.';
       this.isError = true;
       return;
     }
@@ -43,8 +50,8 @@ export class ProductImportComponent {
     this.uploadMessage = 'Subiendo archivo...';
     this.isError = false;
 
-    this.productosService.importProducts(this.selectedFile, this.selectedEmpresaId, 'excel').subscribe({
-      next: (response) => {
+    this.empresaService.importProducts(this.selectedEmpresaId, this.selectedFile, 'excel').subscribe({
+      next: (response: ImportResponse) => { // Added type for response
         this.uploadMessage = `¡Éxito! Productos creados: ${response.created}, actualizados: ${response.updated}.`;
         this.isError = false;
       },
@@ -65,7 +72,7 @@ export class ProductImportComponent {
       const formattedErrors = serverError.errors.map((e: any) => 
         `Fila ${e.row}: ${Array.isArray(e.errors) ? e.errors.join(', ') : 'Error desconocido'}`
       ).join('; ');
-      return `Detalles: ${formattedErrors}`;
+      return `Detalles: ${formattedErrors}`; 
     }
     return 'No se proporcionaron detalles adicionales.';
   }
