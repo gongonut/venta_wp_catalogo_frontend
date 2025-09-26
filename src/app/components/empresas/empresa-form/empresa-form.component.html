@@ -6,8 +6,10 @@
       <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">
         Nombre
       </label>
-      <input formControlName="nombre" id="nombre" type="text" placeholder="Nombre de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-      <div *ngIf="empresaForm.get('nombre')?.invalid && empresaForm.get('nombre')?.touched" class="text-red-500 text-xs italic">
+      <input formControlName="nombre" id="nombre" type="text" placeholder="Nombre de la empresa" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('nombre')?.invalid && (empresaForm.get('nombre')?.touched || submitted)">
+      <div *ngIf="empresaForm.get('nombre')?.invalid && (empresaForm.get('nombre')?.touched || submitted)" class="text-red-500 text-xs italic">
         El nombre es requerido.
       </div>
     </div>
@@ -16,9 +18,60 @@
       <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
         Código
       </label>
-      <input formControlName="code" id="code" type="text" placeholder="Código único de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-      <div *ngIf="empresaForm.get('code')?.invalid && empresaForm.get('code')?.touched" class="text-red-500 text-xs italic">
+      <input formControlName="code" id="code" type="text" placeholder="Código único de la empresa" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('code')?.invalid && (empresaForm.get('code')?.touched || submitted)">
+      <div *ngIf="empresaForm.get('code')?.invalid && (empresaForm.get('code')?.touched || submitted)" class="text-red-500 text-xs italic">
         El código es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="logo">
+        Logo (URL)
+      </label>
+      <input formControlName="logo" id="logo" type="text" placeholder="https://ejemplo.com/logo.png" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('logo')?.invalid && (empresaForm.get('logo')?.touched || submitted)">
+       <div *ngIf="empresaForm.get('logo')?.invalid && (empresaForm.get('logo')?.touched || submitted)" class="text-red-500 text-xs italic">
+        Por favor, ingrese una URL válida.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="leitmotiv">
+        Leitmotiv
+      </label>
+      <input formControlName="leitmotiv" id="leitmotiv" type="text" placeholder="Frase o eslogan de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="empresaTipo">
+        Tipo de Empresa
+      </label>
+      <select formControlName="empresaTipo" id="empresaTipo" 
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              [class.border-red-500]="empresaForm.get('empresaTipo')?.invalid && (empresaForm.get('empresaTipo')?.touched || submitted)">
+        <option value="" disabled>Seleccione un tipo</option>
+        <option *ngFor="let tipo of empresaTipos" [value]="tipo">{{ tipo }}</option>
+      </select>
+      <div *ngIf="empresaForm.get('empresaTipo')?.invalid && (empresaForm.get('empresaTipo')?.touched || submitted)" class="text-red-500 text-xs italic">
+        El tipo de empresa es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="codigoPais">
+        País
+      </label>
+      <select formControlName="codigoPais" id="codigoPais" 
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              [class.border-red-500]="empresaForm.get('codigoPais')?.invalid && (empresaForm.get('codigoPais')?.touched || submitted)">
+        <option value="" disabled>Seleccione un país</option>
+        <option *ngFor="let pais of paises" [value]="pais.codigo">{{ pais.nombre }}</option>
+      </select>
+      <div *ngIf="empresaForm.get('codigoPais')?.invalid && (empresaForm.get('codigoPais')?.touched || submitted)" class="text-red-500 text-xs italic">
+        El país es requerido.
       </div>
     </div>
 
@@ -26,8 +79,10 @@
       <label class="block text-gray-700 text-sm font-bold mb-2" for="whatsApp">
         WhatsApp
       </label>
-      <input formControlName="whatsApp" id="whatsApp" type="text" placeholder="Número de WhatsApp" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-      <div *ngIf="empresaForm.get('whatsApp')?.invalid && empresaForm.get('whatsApp')?.touched" class="text-red-500 text-xs italic">
+      <input formControlName="whatsApp" id="whatsApp" type="text" placeholder="Número de WhatsApp" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('whatsApp')?.invalid && (empresaForm.get('whatsApp')?.touched || submitted)">
+      <div *ngIf="empresaForm.get('whatsApp')?.invalid && (empresaForm.get('whatsApp')?.touched || submitted)" class="text-red-500 text-xs italic">
         El número de WhatsApp es requerido.
       </div>
     </div>
@@ -43,8 +98,10 @@
       <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
         Email
       </label>
-      <input formControlName="email" id="email" type="email" placeholder="Correo electrónico" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-      <div *ngIf="empresaForm.get('email')?.invalid && empresaForm.get('email')?.touched" class="text-red-500 text-xs italic">
+      <input formControlName="email" id="email" type="email" placeholder="Correo electrónico" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('email')?.invalid && (empresaForm.get('email')?.touched || submitted)">
+      <div *ngIf="empresaForm.get('email')?.invalid && (empresaForm.get('email')?.touched || submitted)" class="text-red-500 text-xs italic">
         Ingrese un email válido.
       </div>
     </div>
@@ -54,6 +111,36 @@
         Dirección
       </label>
       <input formControlName="direccion" id="direccion" type="text" placeholder="Dirección de la empresa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="areaInfluencia">
+        Área de Influencia (km)
+      </label>
+      <input formControlName="areaInfluencia" id="areaInfluencia" type="number" placeholder="50" 
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             [class.border-red-500]="empresaForm.get('areaInfluencia')?.invalid && (empresaForm.get('areaInfluencia')?.touched || submitted)">
+      <div *ngIf="empresaForm.get('areaInfluencia')?.invalid && (empresaForm.get('areaInfluencia')?.touched || submitted)" class="text-red-500 text-xs italic">
+        El área de influencia debe ser un número positivo.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="tipoWebPg">
+        Diseño de Página Web
+      </label>
+      <select formControlName="tipoWebPg" id="tipoWebPg" 
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              [class.border-red-500]="empresaForm.get('tipoWebPg')?.invalid && (empresaForm.get('tipoWebPg')?.touched || submitted)">
+        <option *ngFor="let tipo of tiposWebPg" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label class="flex items-center">
+        <input formControlName="opcionIA" id="opcionIA" type="checkbox" class="form-checkbox h-5 w-5 text-blue-600">
+        <span class="ml-2 text-gray-700 text-sm font-bold">Habilitar Opción de IA</span>
+      </label>
     </div>
 
     <div class="mb-4">
@@ -89,7 +176,7 @@
     </div>
 
     <div class="flex items-center justify-between">
-      <button type="submit" [disabled]="empresaForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         {{ isEditMode ? 'Actualizar' : 'Guardar' }}
       </button>
       <button type="button" (click)="cancel()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

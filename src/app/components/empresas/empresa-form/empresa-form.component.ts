@@ -10,6 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { EmpresaTipo } from '../../../models/empresa-tipo.enum';
+import { PaisCodigo } from '../../../models/pais-codigo.enum';
+import { TipoWebPg } from '../../../models/tipo-web-pg.enum';
 
 @Component({
   selector: 'app-empresa-form',
@@ -23,6 +26,16 @@ export class EmpresaFormComponent implements OnInit {
   isEditMode = false;
   empresaId: string | null = null;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  
+  empresaTipos = Object.values(EmpresaTipo);
+  paises = [
+    { nombre: 'Colombia', codigo: PaisCodigo.COLOMBIA },
+    { nombre: 'Ecuador', codigo: PaisCodigo.ECUADOR },
+    { nombre: 'Venezuela', codigo: PaisCodigo.VENEZUELA },
+  ];
+  tiposWebPg = Object.values(TipoWebPg);
+
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,10 +46,17 @@ export class EmpresaFormComponent implements OnInit {
     this.empresaForm = this.fb.group({
       code: ['', Validators.required],
       nombre: ['', Validators.required],
+      logo: ['', [Validators.pattern('https?://.+\\..+')]],
+      leitmotiv: [''],
+      empresaTipo: ['', Validators.required],
+      codigoPais: ['', Validators.required],
       telefono: [''],
       whatsApp: ['', Validators.required],
       email: ['', Validators.email],
       direccion: [''],
+      areaInfluencia: [0, [Validators.min(0)]],
+      opcionIA: [false],
+      tipoWebPg: [TipoWebPg.CLARO, Validators.required],
       saludoBienvenida: [''],
       saludoDespedida: [''],
       categorias: this.fb.array([])
@@ -74,6 +94,7 @@ export class EmpresaFormComponent implements OnInit {
   }
 
   saveEmpresa(): void {
+    this.submitted = true;
     if (this.empresaForm.valid) {
       const empresaData = this.empresaForm.value;
       if (this.isEditMode && this.empresaId) {
