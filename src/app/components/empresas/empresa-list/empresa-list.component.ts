@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageBatchUploaderComponent } from '../../image-batch-uploader/image-batch-uploader.component';
-import { ProductImportComponent } from '../../product-import/product-import.component';
+
 import { QrDialogComponent } from '../qr-dialog/qr-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,12 +55,6 @@ export class EmpresaListComponent implements OnInit {
     });
   }
 
-  openProductImporter(empresaId: string): void {
-    this.dialog.open(ProductImportComponent, {
-      width: '800px',
-      data: { empresaId: empresaId }
-    });
-  }
 
   openQrDialog(empresa: Empresa): void {
     this.dialog.open(QrDialogComponent, {

@@ -56,6 +56,10 @@ export class EmpresaService {
     return this.http.patch<any>(`${this.apiUrl}/${empresaId}/productos/${sku}`, product);
   }
 
+  createProduct(empresaId: string, product: Partial<Producto>): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${empresaId}/productos`, product);
+  }
+
   deleteProduct(empresaId: string, sku: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${empresaId}/productos/${sku}`);
   }

@@ -1,32 +1,132 @@
-<div class="container mx-auto p-4">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-bold">Productos</h1>
-    <!-- Add button to create new product -->
-  </div>
+@if (empresa$ | async; as empresa) {
+  <div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Productos de {{ empresa.nombre }}</h1>
+      <div>
+        <button (click)="createProducto()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Crear Producto
+        </button>
+        <button (click)="openProductImporter()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+          Importar Prod.
+        </button>
+      </div>
+    </div>
 
-  <div class="shadow overflow-hidden rounded border-b border-gray-200">
-    <table class="min-w-full bg-white">
-      <thead class="bg-gray-800 text-white">
-        <tr>
-          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">SKU</th>
-          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Nombre Corto</th>
-          <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Precio</th>
-          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-700">
-        <tr *ngFor="let producto of productos$ | async">
-          <td class="text-left py-3 px-4">{{ producto.sku }}</td>
-          <td class="text-left py-3 px-4">{{ producto.nombreCorto }}</td>
-          <td class="text-left py-3 px-4">{{ formatPrice(producto) }}</td>
-          <td class="text-left py-3 px-4">
-            <!-- Action buttons for products -->
-          </td>
-        </tr>
-        <tr *ngIf="!(productos$ | async)?.length">
-          <td colspan="4" class="text-center py-3 px-4">No hay productos para mostrar.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="shadow overflow-hidden rounded border-b border-gray-200">
+      <table class="min-w-full bg-white">
+        <thead class="bg-gray-800 text-white">
+          <tr>
+            <th class="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">SKU</th>
+            <th class="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Nombre Corto</th>
+            <th class="w-1/5 text-left py-3 px-4 uppercase font-semibold text-sm">Precio Base</th>
+            <th class="w-2/5 text-left py-3 px-4 uppercase font-semibold text-sm">Presentaciones</th>
+            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-700">
+          @if (editingProduct) {
+            <tr>
+              <td colspan="5" class="p-4 bg-gray-50">
+                <form [formGroup]="productEditForm" (ngSubmit)="saveProduct()">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">SKU</label>
+                      <input type="text" formControlName="sku" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Nombre Corto</label>
+                      <input type="text" formControlName="nombreCorto" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                      <select formControlName="categoria" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="">Seleccione una categoría</option>
+                        @for (categoria of empresa.categorias; track categoria) {
+                          <option [value]="categoria">{{ categoria }}</option>
+                        }
+                      </select>
+                    </div>
+                    <div class="col-span-2">
+                      <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                      <textarea formControlName="descripcion" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Precio Venta</label>
+                      <input type="number" formControlName="precioVenta" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <h3 class="text-sm font-medium text-gray-700">Fotos</h3>
+                    <div formArrayName="fotos" class="mt-2 space-y-2">
+                      @for (foto of fotos.controls; track i; let i = $index) {
+                        <div class="flex items-center gap-2">
+                          <input [formControlName]="i" class="flex-grow block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                          <button type="button" (click)="removeFoto(i)" class="text-red-500 hover:text-red-700">
+                            <span class="material-icons">delete</span>
+                          </button>
+                        </div>
+                      }
+                    </div>
+                    <button type="button" (click)="addFoto()" [disabled]="fotos.length >= 5" class="mt-2 text-sm text-blue-500 hover:text-blue-700">Agregar Foto</button>
+                  </div>
+                  <div class="flex justify-end gap-4 mt-4">
+                    <button type="button" (click)="cancelEdit()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancelar</button>
+                    <button type="submit" [disabled]="productEditForm.invalid" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Guardar</button>
+                  </div>
+                </form>
+              </td>
+            </tr>
+          }
+          @for (producto of empresa.productos; track producto.sku) {
+            <tr [class.bg-yellow-100]="editingProduct?.sku === producto.sku">
+              <td class="text-left py-3 px-4">{{ producto.sku }}</td>
+              <td class="text-left py-3 px-4">{{ producto.nombreCorto }}</td>
+              <td class="text-left py-3 px-4">
+                <div class="flex items-center">
+                  <span>{{ producto.precioVenta.toFixed(2) }}</span>
+                  <button (click)="editarPrecioBase(producto)"
+                          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs ml-2">
+                    Editar
+                  </button>
+                </div>
+              </td>
+              <td class="text-left py-3 px-4">
+                <div class="flex flex-wrap items-center gap-2">
+                  @for (key of getKeys(producto.presentacion); track key) {
+                    <div class="flex items-center">
+                      <button (click)="openEditDialog(producto, key)"
+                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-l text-xs">
+                        {{ key }}
+                      </button>
+                      <button (click)="eliminarPresentacion(producto, key)"
+                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-r text-xs">
+                        -
+                      </button>
+                    </div>
+                  }
+                  <button (click)="agregarPresentacion(producto)"
+                          class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs">
+                    +
+                  </button>
+                </div>
+              </td>
+              <td class="text-left py-3 px-4">
+                <button (click)="toggleEdit(producto)" class="text-yellow-600 hover:text-yellow-900">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button (click)="eliminarProducto(producto)" class="text-red-600 hover:text-red-900 ml-2">
+                  <span class="material-icons">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+          @if (!empresa.productos?.length) {
+            <tr>
+              <td colspan="5" class="text-center py-3 px-4">No hay productos para mostrar.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+}

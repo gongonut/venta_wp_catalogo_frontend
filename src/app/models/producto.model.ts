@@ -3,7 +3,7 @@ export interface Producto {
   sku: string;
   nombreCorto: string;
   nombreLargo?: string;
-  descripcion?: string;
+  // descripcion?: string;
   precioVenta: number;
   existencia?: number;
   presentacion?: Record<string, { precioventa: number; disponible: boolean }>;
